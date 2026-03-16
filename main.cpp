@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
+const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 10, MAX_LS = 20;
 
 class DoublyLinkedList {
 private:
@@ -80,7 +80,7 @@ public:
         temp->next = newNode;
     }
 
-    void delete_node(int value) {
+    void delete_val(int value) {
         if (!head) return; // Empty list
 
         Node* temp = head;
@@ -149,12 +149,23 @@ public:
             cout << "List is empty.";
             return;
         }
-        Node* successor = head->next;
-        successor->prev = head->prev; // null
-        head->next = null
-
-
+        head->next->prev = head->prev; // set 2nd node's prev ptr to null
+        head = head->next;
+        delete head;
     }
+
+    // Change #3: Delete tail node
+    // This function deletes the tail node.
+    void pop_back() {
+        if (!tail) {
+            cout << "List is empty.";
+            return;
+        }
+        tail->prev->next = tail->next; // which is null
+        tail = tail->prev;
+        delete tail;
+    }
+
 
     void print() {
         Node* current = head;
@@ -198,6 +209,30 @@ int main() {
     cout << "List backward: ";
     list.print_reverse();
 
+    // New driver
+    cout << "Deleting nodes..." << endl << endl;
+    int position = 0;
+    cout << "Enter position of node you want to delete: ";
+    cin >> position;
+    cout << endl;
+    list.delete_pos(position);
+    list.print();
+
+    int val = 0;
+    cout << "Enter value of node you want to delete: ";
+    cin >> val;
+    cout << endl;
+    list.delete_val(val);
+    list.print();
+
+    cout << "Deleting head node..." << endl;
+    list.pop_front();
+    list.print();
+
+    cout << "Deleting tail node..." << endl;
+    list.pop_back();
+    list.print();
+`
     cout << "Deleting list, then trying to print.\n";
     list.~DoublyLinkedList();
     cout << "List forward: ";
