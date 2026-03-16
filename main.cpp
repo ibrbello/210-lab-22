@@ -87,7 +87,10 @@ public:
         while (temp && temp->data != value)
             temp = temp->next;
 
-        if (!temp) return; // Value not found
+        if (!temp) {
+            cout << "Value not found." << endl;
+            return;
+        } 
 
         if (temp->prev) {
             temp->prev->next = temp->next;
@@ -149,8 +152,9 @@ public:
             cout << "List is empty.";
             return;
         }
-        head->next->prev = head->prev; // set 2nd node's prev ptr to null
-        head = head->next;
+        Node* temp = head;
+        temp->next->prev = nullptr; 
+        head = temp->next;
         delete head;
     }
 
@@ -161,8 +165,9 @@ public:
             cout << "List is empty.";
             return;
         }
-        tail->prev->next = tail->next; // which is null
-        tail = tail->prev;
+        Node* temp = tail;
+        temp->prev->next = nullptr; 
+        tail = temp->prev;
         delete tail;
     }
 
@@ -216,6 +221,7 @@ int main() {
     cin >> position;
     cout << endl;
     list.delete_pos(position);
+    cout << "List after deleting your node:" << endl;
     list.print();
 
     int val = 0;
@@ -223,6 +229,7 @@ int main() {
     cin >> val;
     cout << endl;
     list.delete_val(val);
+    cout << "List after deleting your node:" << endl;
     list.print();
 
     cout << "Deleting head node..." << endl;
@@ -232,7 +239,7 @@ int main() {
     cout << "Deleting tail node..." << endl;
     list.pop_back();
     list.print();
-`
+
     cout << "Deleting list, then trying to print.\n";
     list.~DoublyLinkedList();
     cout << "List forward: ";
