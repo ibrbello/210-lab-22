@@ -105,6 +105,9 @@ public:
     }
 
     // Change #1: Delete by Position function
+    // This function accepts the position of the doomed
+    // node as an int argument and deletes the node
+    // at that position.
     void delete_pos(int pos) {
         if (!head) return; // Empty List
 
@@ -124,7 +127,32 @@ public:
             cout << endl;
             return;
         }
-        
+        if (temp->prev) {
+            temp->prev->next = temp->next;
+        } else {
+            head = temp->next; // Deleting the head
+        }
+
+        if (temp->next) {
+            temp->next->prev = temp->prev;
+        } else {
+            tail = temp->prev; // Deleting the tail
+        }
+
+        delete temp;
+    }
+
+    // Change #2: Delete head node
+    // This function deletes the head node.
+    void pop_front() {
+        if (!head) {
+            cout << "List is empty.";
+            return;
+        }
+        Node* successor = head->next;
+        successor->prev = head->prev; // null
+        head->next = null
+
 
     }
 
