@@ -81,14 +81,17 @@ public:
     }
 
     void delete_val(int value) {
-        if (!head) return; // Empty list
+        if (!head) {
+            cout << "List is empty." << endl;
+            return;
+        }
 
         Node* temp = head;
         while (temp && temp->data != value)
             temp = temp->next;
 
         if (!temp) {
-            cout << "Value not found." << endl;
+            cout << "Value not found." << endl << endl;
             return;
         } 
 
@@ -105,6 +108,7 @@ public:
         }
 
         delete temp;
+        cout << "Node deleted." << endl << endl;
     }
 
     // Change #1: Delete by Position function
@@ -112,23 +116,19 @@ public:
     // node as an int argument and deletes the node
     // at that position.
     void delete_pos(int pos) {
-        if (!head) return; // Empty List
+        if (!head) {
+            cout << "List is empty." << endl;
+            return;
+        }
 
         Node* temp = head;
-        // Algorithm: 
-        // 1. Traverse to position
-        // 2. If position is head: rewire & reassign head
-        // Else: just rewire
-        // 3. If position is tail: rewire & reassign tail
-        // Else: just rewire
-        // 4. Delete doomed node
         for (int i = 0; i < pos; i++) {
             temp = temp->next;
-        }
-        if (!temp) {
-            cout << "Position is outside of list range. Node not deleted.";
-            cout << endl;
-            return;
+            if (!temp) { // Check if temp is nullptr before it goes out of range
+                cout << "Position is outside of list range. Node not deleted.";
+                cout << endl << endl;
+                return;
+            }
         }
         if (temp->prev) {
             temp->prev->next = temp->next;
@@ -143,32 +143,37 @@ public:
         }
 
         delete temp;
+        cout << "Node deleted." << endl << endl;
     }
 
     // Change #2: Delete head node
     // This function deletes the head node.
     void pop_front() {
         if (!head) {
-            cout << "List is empty.";
+            cout << "List is empty." << endl;
             return;
         }
         Node* temp = head;
         temp->next->prev = nullptr; 
         head = temp->next;
-        delete head;
+        delete temp;
+        cout << "Node deleted." << endl << endl;
+
     }
 
     // Change #3: Delete tail node
     // This function deletes the tail node.
     void pop_back() {
         if (!tail) {
-            cout << "List is empty.";
+            cout << "List is empty." << endl;
             return;
         }
         Node* temp = tail;
         temp->prev->next = nullptr; 
         tail = temp->prev;
-        delete tail;
+        delete temp;
+        cout << "Node deleted." << endl << endl;
+
     }
 
 
@@ -179,7 +184,7 @@ public:
             cout << current->data << " ";
             current = current->next;
         }
-        cout << endl;
+        cout << endl << endl;
     }
 
     void print_reverse() {
@@ -189,7 +194,7 @@ public:
             cout << current->data << " ";
             current = current->prev;
         }
-        cout << endl;
+        cout << endl << endl;
     }
 
     ~DoublyLinkedList() {
@@ -203,6 +208,7 @@ public:
 
 // Driver program
 int main() {
+    srand(time(0));
     DoublyLinkedList list;
     int size = rand() % (MAX_LS-MIN_LS+1) + MIN_LS;
 
@@ -219,26 +225,34 @@ int main() {
     int position = 0;
     cout << "Enter position of node you want to delete: ";
     cin >> position;
-    cout << endl;
     list.delete_pos(position);
-    cout << "List after deleting your node:" << endl;
+    cout << "List after deletion attept:" << endl;
     list.print();
 
     int val = 0;
     cout << "Enter value of node you want to delete: ";
     cin >> val;
-    cout << endl;
     list.delete_val(val);
-    cout << "List after deleting your node:" << endl;
+    cout << "List after deletion attempt:" << endl;
     list.print();
 
     cout << "Deleting head node..." << endl;
     list.pop_front();
+    cout << "List after deletion attempt:" << endl;
     list.print();
 
     cout << "Deleting tail node..." << endl;
     list.pop_back();
+    cout << "List after deletion attempt:" << endl;
     list.print();
+
+    cout << "Demonstrating empty list..." << endl;
+    DoublyLinkedList emptyList;
+    cout << "Attempting deletion operations..." << endl;
+    emptyList.delete_pos(position);
+    emptyList.delete_val(val);
+    emptyList.pop_front();
+    emptyList.pop_back();
 
     cout << "Deleting list, then trying to print.\n";
     list.~DoublyLinkedList();
